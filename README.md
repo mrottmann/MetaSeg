@@ -33,3 +33,6 @@ Packages and their version we used:
 - Python==3.4.6
 - Cython==0.27
 - gcc==4.8.5
+
+Authors:
+Matthias Rottmann (University of Wuppertal), Thomas Paul Hack (Leipzig University), Pascal Colling (University of Wuppertal).
