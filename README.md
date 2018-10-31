@@ -21,7 +21,7 @@ MetaSeg provides a function "probs_gt_save" in "metaseg_io.py" to store this inf
 
 The results in http://arxiv.org/XXXXXXX have been obtained from two Deeplabv3+ networks (https://github.com/tensorflow/models/tree/master/research/deeplab) together with the Cityscapes dataset (https://www.cityscapes-dataset.com/). For using the latter you need to enroll at Cityscapes on the website. For details on using Deeplabv3+ networks in combination with cityscapes, we refer to the README page https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/cityscapes.md.
 
- ## Packages and their version we used:
+ ## Packages and their versions we used:
 
 - tensorflow-gpu==1.9.0
 - pandas==0.22.0
