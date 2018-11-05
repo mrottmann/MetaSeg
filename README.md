@@ -3,7 +3,7 @@
 
 MetaSeg is a post-processing tool for semantic segmentation neural networks. For each component/object in the segmentation, MetaSeg on the one hand provides a method that predicts whether this particular component intersects with the ground truth or not. This task can be understood as meta classifying between the two classes {IoU=0} and {IoU>0}. On the other hand MetaSeg also provides a method for quantifying the uncertainty of each predicted segment by predicting IoU values via regression. MetaSeg is a method that treats the neural network like a blackbox, i.e., at inference time it only uses the softmax output of the neural network.
 
-For further reading and also in case you want to re-use the code and publish results, please refer to http://arxiv.org/XXXXXXX.
+For further reading and also in case you want to re-use the code and publish results, please refer to http://arxiv.org/abs/1811.00648.
 
 
 ## Preparation:
@@ -19,7 +19,7 @@ MetaSeg provides a function "probs_gt_save" in "metaseg_io.py" to store this inf
 
 ## Deeplabv3+ and Cityscapes:
 
-The results in http://arxiv.org/XXXXXXX have been obtained from two Deeplabv3+ networks (https://github.com/tensorflow/models/tree/master/research/deeplab) together with the Cityscapes dataset (https://www.cityscapes-dataset.com/). For using the latter you need to enroll at Cityscapes on the website. For details on using Deeplabv3+ networks in combination with cityscapes, we refer to the README page https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/cityscapes.md.
+The results in http://arxiv.org/abs/1811.00648 have been obtained from two Deeplabv3+ networks (https://github.com/tensorflow/models/tree/master/research/deeplab) together with the Cityscapes dataset (https://www.cityscapes-dataset.com/). For using the latter you need to enroll at Cityscapes on the website. For details on using Deeplabv3+ networks in combination with cityscapes, we refer to the README page https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/cityscapes.md.
 
  ## Packages and their versions we used:
 
