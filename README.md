@@ -1,7 +1,7 @@
 
 ## What is MetaSeg:
 
-MetaSeg is a post-processing tool for semantic segmentation neural networks. For each component/object in the segmentation, MetaSeg on the one hand provides a method that predicts whether this particular component intersects with the ground truth or not. This task can be understood as meta classifying between the two classes {IoU=0} and {IoU>0}. On the other hand MetaSeg also provides a method for quantifying the uncertainty of each predicted segment by predicting IoU values via regression. MetaSeg is a method that treats the neural network like a blackbox, i.e., at inference time it only uses the softmax output of the neural network.
+MetaSeg is a post-processing tool for quantifying the reliability of semantic segmentation neural networks. For each component/object in the segmentation, MetaSeg on the one hand provides a method that predicts whether this particular component intersects with the ground truth or not. This task can be understood as meta classifying between the two classes {IoU=0} and {IoU>0}. On the other hand MetaSeg also provides a method for quantifying the uncertainty of each predicted segment by predicting IoU values via regression. MetaSeg is a method that treats the neural network like a blackbox, i.e., at inference time it only uses the softmax output of the neural network.
 
 For further reading and also in case you want to re-use the code and publish results, please refer to http://arxiv.org/abs/1811.00648.
 
