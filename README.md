@@ -1,6 +1,8 @@
 
 ## What is MetaSeg:
 
+![MetaSeg](https://github.com/mrottmann/MetaSeg/tree/nested_metaseg/figs/MetaSeg.jpg)
+
 MetaSeg is a post-processing tool for semantic segmentation neural networks. For each component/object in the segmentation, MetaSeg on one hand provides a method that predicts whether this particular component intersects with the ground truth or not. This task can be understood as meta classifying between the two classes {IoU=0} and {IoU>0} segment-wise. On the other hand MetaSeg also provides a method for quantifying the uncertainty/confidence for each predicted segment by predicting IoU values via regression. MetaSeg is a method that treats the neural network like a black box, i.e., at inference time it only uses the softmax output of the neural network. For further information we refer to http://arxiv.org/abs/1811.00648.
 
 #### Nested MetaSeg Branch
