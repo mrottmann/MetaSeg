@@ -8,6 +8,8 @@ def segment_search( int i, int j, unsigned char[:,:] seg, short int seg_ind, np.
                     unsigned short int[:,:] members_k, unsigned short int[:,:] members_l,
                     int nclasses, int x_max, int y_max ):
   
+  #print(x_max,y_max)
+  
   cdef int k, l, ii, jj, x, y, n_in, n_bd, c, I, U, flag_max_x, flag_min_x, flag_max_y, flag_min_y, ic
   cdef unsigned char[:,:] flag
   cdef short int[:,:] marked
@@ -111,8 +113,8 @@ def segment_search( int i, int j, unsigned char[:,:] seg, short int seg_ind, np.
             n_bd += 1
           for ic in range(nclasses):
             metrics["cprob"+str(ic)][-1] += probs[x,y,ic]
-          #metrics["mean_x"][-1] += x
-          #metrics["mean_y"][-1] += y
+          metrics["mean_x"][-1] += x
+          metrics["mean_y"][-1] += y
           if gt != []:
             if gt[x,y] == c:
               I += 1
@@ -136,8 +138,8 @@ def segment_search( int i, int j, unsigned char[:,:] seg, short int seg_ind, np.
     metrics["S_bd"    ][-1] = n_bd
     metrics["S_rel"   ][-1] = float( n_in + n_bd ) / float(n_bd)
     metrics["S_rel_in"][-1] = float( n_in ) / float(n_bd)
-    #metrics["mean_x"][-1] /= ( n_in + n_bd )
-    #metrics["mean_y"][-1] /= ( n_in + n_bd )
+    metrics["mean_x"][-1] /= ( n_in + n_bd )
+    metrics["mean_y"][-1] /= ( n_in + n_bd )
     
     for nc in range(nclasses):
       metrics["cprob"+str(nc)][-1] /= ( n_in + n_bd )
@@ -184,9 +186,19 @@ def probdist( probs ):
 
 
 
+def read_heatmap( read_path ):
+  
+  import pickle
+  
+  heatmap = pickle.load( open( read_path, "rb" ) )
+
+  return heatmap
+
+
+
 def prediction(probs, gt, ignore=True ):
     
-  pred = np.asarray( np.argmax( probs, axis=-1 ), dtype="uint8" )
+  pred = np.asarray( np.argmax( probs, axis=-1 ), dtype="uint8" )  
   
   if ignore == True:
     pred[ gt==255 ] = 255
@@ -195,7 +207,7 @@ def prediction(probs, gt, ignore=True ):
 
 
 
-def compute_metrics( probs, gt ):
+def compute_metrics( probs, gt, hmaps ):
   
   cdef int i, j
   cdef short int seg_ind
@@ -215,9 +227,11 @@ def compute_metrics( probs, gt ):
   flag      = np.zeros( dims, dtype="uint8" )
   M         = marked
   
-  heatmaps = { "E": entropy( probs ), "D": probdist( probs ) }  
+  heatmaps = dict({})
+  for h in hmaps:
+    heatmaps[h] = read_heatmap( hmaps[h] )
   
-  metrics = { "iou": list([]), "iou0": list([]), "class": list([]) } #, "mean_x": list([]), "mean_y": list([]) }
+  metrics = { "iou": list([]), "iou0": list([]), "class": list([]) , "mean_x": list([]), "mean_y": list([]) }
   
   for m in list(heatmaps)+["S"]:
     metrics[m          ] = list([])

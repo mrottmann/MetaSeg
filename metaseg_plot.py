@@ -16,7 +16,7 @@ def add_scatterplot_vs_iou(ious, sizes, dataset, shortname, size_fac, scale, set
   cmap=plt.get_cmap('tab20')
   rho = pearsonr(ious,dataset)
   plt.title(r"$\rho = {:.05f}$".format(rho[0]))
-  plt.scatter(ious, dataset, s = sizes/np.max(sizes)*size_fac, linewidth=.5, c=cmap(0), edgecolors=cmap(1), alpha=0.25 ) #, edgecolor='black' c='#1f77b480'
+  plt.scatter(ious, dataset, s = sizes/np.max(sizes)*size_fac, linewidth=.5, c=cmap(0), edgecolors=cmap(1), alpha=0.25 )
   plt.xlabel('$\mathit{IoU}_\mathrm{adj}$', labelpad=-10)
   plt.ylabel(shortname, labelpad=-8)
   plt.ylim(-.05,1.05)
@@ -110,23 +110,50 @@ def name_to_latex( name ):
   
   for i in range(100):
     if name == "cprob"+str(i):
-      return "$C_{"+str(i)+"}$"
+      return "$P_{"+str(i)+"}$"
 
-  mapping = {'E': '$\\bar E$',
-          'E_bd': '${\\bar E}_{bd}$',
-          'E_in': '${\\bar E}_{in}$',
-          'E_rel_in': '$\\tilde{\\bar E}_{in}$',
-          'E_rel': '$\\tilde{\\bar E}$',
-          'D': '$\\bar D$',
-          'D_bd': '${\\bar D}_{bd}$',
-          'D_in': '${\\bar D}_{in}$',
-          'D_rel_in': '$\\tilde{\\bar D}_{in}$',
-          'D_rel': '$\\tilde{\\bar D}$',
-          'S': '$S$',
-          'S_bd': '${S}_{bd}$',
-          'S_in': '${S}_{in}$',
-          'S_rel_in': '$\\tilde{S}_{in}$',
-          'S_rel': '$\\tilde{S}$' }
+  mapping = { 'E': '$\\mu \\bar E$',
+              'E_bd': '$\\mu{\\bar E}_{bd}$',
+              'E_in': '$\\mu{\\bar E}_{in}$',
+              'E_rel_in': '$\\mu\\tilde{\\bar E}_{in}$',
+              'E_rel': '$\\mu\\tilde{\\bar E}$',
+              'EV': '$v\\hat E$',
+              'EV_bd': '$v{\\hat E}_{bd}$',
+              'EV_in': '$v{\\hat E}_{in}$',
+              'EV_rel_in': '$v\\tilde{\\hat E}_{in}$',
+              'EV_rel': '$v\\tilde{\\hat E}$',
+              'D': '$\\mu\\bar M$',
+              'D_bd': '$\\mu{\\bar M}_{bd}$',
+              'D_in': '$\\mu{\\bar M}_{in}$',
+              'D_rel_in': '$\\mu\\tilde{\\bar M}_{in}$',
+              'D_rel': '$\\mu\\tilde{\\bar M}$',
+              'DV': '$v\\hat M$',
+              'DV_bd': '$v{\\hat M}_{bd}$',
+              'DV_in': '$v{\\hat M}_{in}$',
+              'DV_rel_in': '$v\\tilde{\\hat M}_{in}$',
+              'DV_rel': '$v\\tilde{\\hat M}$',
+              'P': '$\\mu\\bar V$',
+              'P_bd': '$\\mu{\\bar V}_{bd}$',
+              'P_in': '$\\mu{\\bar V}_{in}$',
+              'P_rel_in': '$\\mu\\tilde{\\bar V}_{in}$',
+              'P_rel': '$\\mu\\tilde{\\bar V}$',
+              'PV': '$v\\hat V$',
+              'PV_bd': '$v{\\hat V}_{bd}$',
+              'PV_in': '$v{\\hat V}_{in}$',
+              'PV_rel_in': '$v\\tilde{\\hat V}_{in}$',
+              'PV_rel': '$v\\tilde{\\hat V}$',
+              'K': '$\\bar K$',
+              'K_bd': '${\\bar K}_{bd}$',
+              'K_in': '${\\bar K}_{in}$',
+              'K_rel_in': '$\\tilde{\\bar K}_{in}$',
+              'K_rel': '$\\tilde{\\bar K}$',
+              'S': '$S$',
+              'S_bd': '${S}_{bd}$',
+              'S_in': '${S}_{in}$',
+              'S_rel_in': '$\\tilde{S}_{in}$',
+              'S_rel': '$\\tilde{S}$',
+              'mean_x' : '${\\bar x}$',
+              'mean_y' : '${\\bar y}$', }
   if str(name) in mapping:
     return mapping[str(name)]
   else:
@@ -139,12 +166,13 @@ def generate_lasso_plots( stats, mean_stats, X_names, class_names ):
   nc = len(X_names) - len(class_names)  
   coefs = np.squeeze(stats['coefs'][0,:,:])
   classcoefs = np.squeeze(stats['coefs'][0,:,nc:])
-  coefs = np.concatenate( [coefs[:,0:nc], np.max( np.abs(coefs[:,nc:]), axis=1 ).reshape( (coefs.shape[0],1) )], axis=1 )
+  #coefs = np.concatenate( [coefs[:,0:nc], np.max( np.abs(coefs[:,nc:]), axis=1 ).reshape( (coefs.shape[0],1) )], axis=1 )
+  coefs = coefs[:,0:nc]
   max_acc = np.argmax( stats['penalized_val_acc'][0], axis=-1 )
   alphas = stats["alphas"]
   
   cmap=plt.get_cmap('tab20')
-  figsize=(8.75,5.25)
+  figsize=(9.3,5.8)
   
   os.environ['PATH'] = os.environ['PATH'] + ':/Library/TeX/texbin' # for tex in matplotlib
   plt.rc('font', size=10, family='serif')
@@ -228,27 +256,4 @@ def plot_regression( X2_val, y2_val, y2_pred, ya_val, ypred, X_names ):
   plt.xlabel('$\mathit{IoU}_\mathrm{adj}$')
   plt.ylabel('predicted $\mathit{IoU}_\mathrm{adj}$')
   plt.savefig(metaseg.get("RESULTS_DIR")+'regression1.png', bbox_inches='tight')
-  
-  figsize=(8.75,5.25)
-  plt.clf()
-  
-  density1 = kde.gaussian_kde(ya_val[ypred==1])
-  density2 = kde.gaussian_kde(ya_val[ypred==0])
-  
-  density1.set_bandwidth( bw_method=density1.factor / 2.)
-  density2.set_bandwidth( bw_method=density2.factor / 2.)
-  
-  x = np.arange(0., 1, .01)
-  
-  plt.clf()
-  plt.figure(figsize=figsize)
-  plt.plot( x, density1(x), color='red' , alpha=0.66, label="pred. $IoU = 0$")
-  plt.plot( x, density2(x), color='blue' , alpha=0.66, label="pred. $IoU > 0$")
-  plt.hist(ya_val[ypred==1], bins=20, color='red' , alpha=0.1, normed=True)
-  plt.hist(ya_val[ypred==0], bins=20, color='blue', alpha=0.1, normed=True)
-  legend = plt.legend(loc='upper right')
-  plt.xlabel('$\mathit{IoU}_\mathrm{adj}$')
-  plt.savefig(metaseg.get("RESULTS_DIR")+'classif_hist.pdf', bbox_inches='tight')
-  
-  plt.clf()
 

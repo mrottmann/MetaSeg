@@ -13,19 +13,19 @@ metaseg = MetaSeg()
 ########################################################
 # probs_gt_save( probs, gt, image_name, i ):
 # This routine stores softmax probabilities, ground truth, and image file name
-# in a hdf5 file named "probs#i.py" in the directory metaseg.get("PROBS_DIR").
-# In order to run the computation and analysis of the metrics, please make sure that:
+# in an hdf5 file named "probs#i.py" in the directory metaseg.get("PROBS_DIR").
+# In order to run the metric's computation and analysis, please make sure:
 #    * all variables and paths in "global_defs.py" are set appropriately,
-#    * all necessary packages are installed (cf. README),
+#    * all neceressary packages are installed (cf. README),
 #    * your inputs to "probs_gt_save(...)" meet all conditions stated below.
-# The visualization part may require minor adjustments for the label color code.
-# Please check the NOTE in the header of "metaseg_eval.py" for further details.
+# The visualization part may require a minor adjustments for the label color code.
+# Therefore, please check the NOTE in the header of "metaseg_eval.py"
 #
 #      probs: softmax probabilities for i-th image obtained from a neural network
 #             3D numpy array (img_dim1,img_dim2,num_classes)
 #         gt: ground truth class IDs per pixel for the i-th image
 #             2D numpy array (img_dim1,img_dim2)
-# image_name: name of the file that contains the i-th input image
+# image_name: name of the file, that contains the i-th input image
 #             string
 #             "get_img_path_fname(...)" (see below) will search for
 #             the pattern "image_name" in file names in all sub directories
@@ -35,7 +35,6 @@ metaseg = MetaSeg()
 #          i: index of the current image, this will appear in the file name
 #             of the stored data, number your outputs continuously from 0 to NUM_IMAGES-1
 ########################################################
-
 def probs_gt_save( probs, gt, image_name, i ):
   
   file_names = []
@@ -65,7 +64,6 @@ def probs_gt_load( i ):
   gt      = np.squeeze( gt[0] )
   
   return probs, gt, f_probs['file_names'][0].decode('utf8')
-
 
 
  
@@ -112,32 +110,51 @@ def components_load( i ):
 
 
 def get_save_path_metrics_i( i ):
-  
   return metaseg.get("METRICS_DIR") + "metrics" + str(i) +".p"
 
 
-
 def get_save_path_components_i( i ):
-  
   return metaseg.get("COMPONENTS_DIR") + "components" + str(i) +".p"
 
 
-
 def get_save_path_probs_i( i ):
-  
   return metaseg.get("PROBS_DIR") + "probs_" + str(i) +".hdf5"
 
 
-
 def get_iou_seg_vis_path_i( i ):
-  
   return metaseg.get("IOU_SEG_VIS_DIR") + "img" + str(i) +".hdf5"
 
 
-
 def get_save_path_stats():
-  
   return metaseg.get("STATS_DIR") + "stats.p"
+
+
+def get_kldiv_path_i( i ):
+  return metaseg.get("KLDIV_DIR") + "kl_div"+str(i)+".p"
+
+
+def get_vardiff_path_i( i ):
+  return metaseg.get("VARDIFF_DIR") + "var_diff"+str(i)+".p"
+
+
+def get_meandiff_path_i( i ):
+  return metaseg.get("VARDIFF_DIR") + "mean_diff"+str(i)+".p"
+
+
+def get_varentropy_path_i( i ):
+  return metaseg.get("VARENTROPY_DIR") + "var_entropy"+str(i)+".p"
+
+
+def get_meanentropy_path_i( i ):
+  return metaseg.get("VARENTROPY_DIR") + "mean_entropy"+str(i)+".p"
+
+
+def get_varvarrat_path_i( i ):
+  return metaseg.get("VARVARRAT_DIR") + "var_varrat"+str(i)+".p"
+
+
+def get_meanvarrat_path_i( i ):
+  return metaseg.get("VARVARRAT_DIR") + "mean_varrat"+str(i)+".p"
 
 
 
