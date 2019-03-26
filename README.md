@@ -9,6 +9,8 @@ MetaSeg is a post-processing tool for semantic segmentation neural networks. For
 
 This branch of MetaSeg uses nested crops with a common center point for each input image, resizes all crops to the same size and uses a tensorflow neural network of your choice to obtain a prediction for the whole batch of crops. These predictions are then resized to the corresponding original crop size and thus yield an ensemble of predictions for each cropped image. We then investigate ensembles of uncertainty heat maps as well as their mean and standard deviations. From this we obtain additional heat maps. Furthermore we include additional metrics as well as neural networks for the meta classification and regression tasks. For further reading and also in case you want to re-use the code and publish results, please refer to http://arxiv.org/abs/XXXXXXX
 
+![MetaSeg](figs/Schachtelung.jpg)
+
 
 ## Preparation:
 
