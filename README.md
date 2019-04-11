@@ -32,7 +32,7 @@ MetaSeg provides a function "probs_gt_save" in "metaseg_io.py" to store this inf
 
 The results in https://arxiv.org/abs/1904.04516 have been obtained from the Deeplabv3+ Mobilenetv2 network (https://github.com/tensorflow/models/tree/master/research/deeplab) together with the Cityscapes dataset (https://www.cityscapes-dataset.com/). For using the latter you need to enroll at Cityscapes on the website. For details on using Deeplabv3+ networks in combination with Cityscapes, we refer to the README page https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/cityscapes.md.
 
-When you have downloaded deeplab, adjust the deeplab path in "global_defs.py", adjust all other paths, run "nested_probs.sh" and then run "metaseg_eval.sh".
+When you have downloaded deeplab, adjust the deeplab path in "global_defs.py", adjust all other paths, ajdust the paths in "nested_probs.sh" and run it. Then run "metaseg_eval.sh".
 
 ## Packages and their version we used:
 
